@@ -1,0 +1,152 @@
+﻿@model WebApplication1.Models.Contacto
+
+<script>
+
+    function Aceptar() {
+
+
+
+
+            var pCedula = $('#Cedula').val();
+            var pNombre = $('#NombreContacto').val();
+            var pApellido = $('#ApellidoContacto').val();
+            var pTelefono = $('#TelefonoContacto').val();
+            var pEmail = $('#EmailContacto').val();
+
+
+            $.ajax({
+                url: '@Url.Action("RegistrarContacto", "Home")',
+            async: true,
+            type: "POST",
+            data: { Cedula: pCedula, Nombre: pNombre, Apellido: pApellido, Telefono: pTelefono, Email: pEmail
+
+            },
+            dataType: "Json",
+            success: function (result) {
+                if (result.Resultado == 'Guardado') {
+
+                    alert(result.Mensaje);
+                }
+                if (result.Resultado == 'ERROR') {
+                    alert(result.Mensaje);
+                    $('label[for=MensajeError]').html(result.Mensaje);
+                    $('label[for=Mensaje]').html("");
+                }
+            },
+            complete: function () {
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+                $('label[for=MensajeError]').html(xhr.status + ' - ' + thrownError);
+                $('label[for=Mensaje]').html("");
+            }
+        });
+    }
+
+
+    function Buscar() {
+
+
+        var pCedula = $('#Cedula').val();
+
+        
+            var pIdDependencia = $("#IdDependencia option:selected").val();
+            $.ajax({
+                url: '@Url.Action("ConsultarContacto", "Home")', type: "POST", dataType: "json",
+                data: { Cedula: pCedula },
+                dataType: "Json",
+                success: function (result) {
+                    if (result.Resultado == 'Guardado') {
+
+                        alert(result.Mensaje);
+                    }
+                    if (result.Resultado == 'ERROR') {
+                        alert(result.Mensaje);
+                        $('label[for=MensajeError]').html(result.Mensaje);
+                        $('label[for=Mensaje]').html("");
+                    }
+                },
+                complete: function () {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    $('label[for=MensajeError]').html(xhr.status + ' - ' + thrownError);
+                    $('label[for=Mensaje]').html("");
+                }
+            });
+        }
+
+        
+
+
+    
+
+    
+
+
+
+
+</script>
+<tr></tr>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-6">
+        </div>
+        </div>
+</div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Cedula: ", new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.TextBox("Cedula", "", new { @class = "form-control", @id = "Cedula" })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Nombre: ", new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBox("Nombre", "", new { @class = "form-control", @id = "NombreContacto" })
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Apellido: ", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBox("Apellido", "", new { @class = "form-control", @id = "ApellidoContacto" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Telefono: ", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBox("Telefono", "", new { @class = "form-control", @id = "TelefonoContacto" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Email ", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBox("Email", "", new { @class = "form-control", @id = "EmailContacto" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                       
+                    </div>
+                    <div class="col-md-6">
+                        <span class='formText'>
+                            <input id="btnAceptar" style="width:125px" align="right" name="btnAceptar" type="submit" value="Registrar" title="Aceptar" class="control-Button" onclick="Aceptar();" />
+                            <input id="btnBuscar" style="width:200px" align="right" name="btnBuscar" type="submit" value="Usuario Registrado?" title="Buscar" class="control-Button" onclick="Buscar();" />
+                        </span>
+                    </div>
+                </div>
+
+
+
